@@ -31,6 +31,7 @@ class CalculatorBrain {
         return accumulator
     }
     
+    // MARK: - Enum / Struct
     enum Operation {
         case Constant(Double)
         case UnaryOperation((Double) -> Double)
