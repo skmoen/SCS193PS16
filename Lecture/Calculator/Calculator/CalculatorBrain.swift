@@ -18,9 +18,7 @@ class CalculatorBrain {
         "e": Operation.Constant(M_E),
         "√": Operation.UnaryOperation(sqrt),
         "cos": Operation.UnaryOperation(cos),
-        "×": Operation.BinaryOperation{ (op1: Double, op2: Double) -> Double in
-            return op1 * op2
-        },
+        "×": Operation.BinaryOperation{ (op1: Double, op2: Double) -> Double in return op1 * op2 },
         "÷": Operation.BinaryOperation{ (op1, op2) in return op1 / op2 },
         "+": Operation.BinaryOperation{ return $0 + $1 },
         "−": Operation.BinaryOperation{ $0 - $1 },
