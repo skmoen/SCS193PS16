@@ -18,6 +18,8 @@ class ViewController: UIViewController {
         set { display.text = String(newValue) }
     }
     
+    var savedProgram: CalculatorBrain.PropertyList?
+    
     // MARK: - IBOutlets
     @IBOutlet private weak var display: UILabel!
     
@@ -47,6 +49,15 @@ class ViewController: UIViewController {
             brain.performOperation(mathematicalSymbol)
         }
         
+        displayValue = brain.result
+    }
+    
+    @IBAction func save() {
+        savedProgram = brain.program
+    }
+    
+    @IBAction func restore() {
+        brain.program = savedProgram!
         displayValue = brain.result
     }
 }
