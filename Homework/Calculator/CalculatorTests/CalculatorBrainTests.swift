@@ -100,10 +100,19 @@ class CalculatorBrainTests: XCTestCase {
         XCTAssert(brain.description == "4.0×π", brain.description)
     }
     
-//    func testExample() {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//    }
+    func testDescriptionM() {
+        // m. 4 + 5 × 3 = could also show “(4 + 5) × 3 =” if you prefer (27 in the display)
+        brain.setOperand(4)
+        brain.performOperation("+")
+        brain.setOperand(5)
+        brain.performOperation("×")
+        brain.setOperand(3)
+        brain.performOperation("=")
+        
+        XCTAssert(brain.result == 27, String(brain.result))
+        XCTAssert(brain.isPartialResult == false)
+        XCTAssert(brain.description == "(4.0+5.0)×3.0", brain.description)
+    }
     
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.

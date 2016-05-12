@@ -50,4 +50,8 @@ class ViewController: UIViewController {
         displayValue = brain.result
         history.text = brain.description + (brain.isPartialResult ? "…" : "=")
     }
+    
+    @IBAction func clear() {
+        brain.clear()
+    }
 }

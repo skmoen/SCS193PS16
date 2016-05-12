@@ -12,7 +12,7 @@ import Foundation
 class CalculatorBrain {
     // MARK: - Properties
     private var accumulator = 0.0
-    private var history = [String]()
+    private var history = [Element]()
     private var pending: PendingBinaryInfo?
     
     var result: Double {
@@ -20,7 +20,7 @@ class CalculatorBrain {
     }
     
     var description: String {
-        return history.joinWithSeparator(" ")
+        return "hi"
     }
     
     var isPartialResult: Bool {
@@ -32,14 +32,20 @@ class CalculatorBrain {
         var operand: Double
     }
     
+    private enum Element {
+        case Number(Double)
+        case Symbol(Operation)
+    }
+    
     // MARK: - Functions
     func setOperand(operand: Double) {
         accumulator = operand
-        history.append(String(operand))
+        history.append(.Number(operand))
     }
     
     func performOperation(operation: String) {
         if let op = operations[operation] {
+            history.append(.Symbol(op))
             switch op {
             case .Constant(let value):
                 accumulator = value
@@ -51,11 +57,12 @@ class CalculatorBrain {
             case .Equals:
                 executePendingBinaryOperation()
             }
-            
-            if op.shouldTrackHistory {
-                history.append(operation)
-            }
         }
+    }
+    
+    func clear() {
+        accumulator = 0
+        pending = nil
     }
     
     private func executePendingBinaryOperation() {
@@ -71,13 +78,6 @@ class CalculatorBrain {
         case UnaryOperation(Double -> Double)
         case BinaryOperation((Double, Double) -> Double)
         case Equals
-
-        var shouldTrackHistory: Bool {
-            switch self {
-            case .Equals: return false
-            default: return true
-            }
-        }
     }
     
     private let operations = [
@@ -86,9 +86,9 @@ class CalculatorBrain {
         "√": Operation.UnaryOperation(sqrt),
         "sin": Operation.UnaryOperation(sin),
         "cos": Operation.UnaryOperation(cos),
-        "×": Operation.BinaryOperation{ (op1: Double, op2: Double) -> Double in return op1 * op2 },
-        "÷": Operation.BinaryOperation{ (op1, op2) in return op1 / op2 },
-        "+": Operation.BinaryOperation{ return $0 + $1 },
+        "×": Operation.BinaryOperation{ $0 * $1 },
+        "÷": Operation.BinaryOperation{ $0 / $1 },
+        "+": Operation.BinaryOperation{ $0 + $1 },
         "−": Operation.BinaryOperation{ $0 - $1 },
         "=": Operation.Equals,
     ]
