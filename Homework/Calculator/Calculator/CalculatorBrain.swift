@@ -23,6 +23,10 @@ class CalculatorBrain {
         return history.joinWithSeparator(" ")
     }
     
+    var isPartialResult: Bool {
+        return pending != nil
+    }
+    
     private struct PendingBinaryInfo {
         var binaryFunction: (Double, Double) -> Double
         var operand: Double
