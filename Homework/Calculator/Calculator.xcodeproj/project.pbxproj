@@ -14,6 +14,7 @@
 		D264613C1CE40D0F00A59C3F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D264613A1CE40D0F00A59C3F /* LaunchScreen.storyboard */; };
 		D26461471CE40D0F00A59C3F /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26461461CE40D0F00A59C3F /* CalculatorTests.swift */; };
 		D26461521CE40D0F00A59C3F /* CalculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26461511CE40D0F00A59C3F /* CalculatorUITests.swift */; };
+		D26461611CE4358A00A59C3F /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26461601CE4358A00A59C3F /* CalculatorBrain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		D264614D1CE40D0F00A59C3F /* CalculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalculatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D26461511CE40D0F00A59C3F /* CalculatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorUITests.swift; sourceTree = "<group>"; };
 		D26461531CE40D0F00A59C3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D26461601CE4358A00A59C3F /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				D26461351CE40D0F00A59C3F /* Main.storyboard */,
+				D26461601CE4358A00A59C3F /* CalculatorBrain.swift */,
 				D26461331CE40D0F00A59C3F /* ViewController.swift */,
 				D264615F1CE40D2200A59C3F /* Support Files */,
 			);
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D26461611CE4358A00A59C3F /* CalculatorBrain.swift in Sources */,
 				D26461341CE40D0F00A59C3F /* ViewController.swift in Sources */,
 				D26461321CE40D0F00A59C3F /* AppDelegate.swift in Sources */,
 			);
