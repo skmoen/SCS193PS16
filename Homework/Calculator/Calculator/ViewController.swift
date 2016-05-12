@@ -48,6 +48,6 @@ class ViewController: UIViewController {
         brain.performOperation(sender.currentTitle!)
         
         displayValue = brain.result
-        history.text = brain.description
+        history.text = brain.description + (brain.isPartialResult ? "…" : "=")
     }
 }
