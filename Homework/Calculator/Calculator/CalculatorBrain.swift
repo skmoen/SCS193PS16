@@ -25,7 +25,17 @@ class CalculatorBrain {
             if let operand = item as? Double {
                 desc += String(operand)
             } else if let operation = item as? String, op = operations[operation] {
-                desc += op.description
+                switch op {
+                case .Constant(let symbol, _):
+                    desc += symbol
+                case .UnaryOperation(let symbol, _):
+                    desc = symbol + "(" + desc + ")"
+                case .BinaryOperation(let symbol, _):
+                    desc += symbol
+                default: break
+                }
+            } else {
+                print("Unable to process: \(item)")
             }
         }
         return desc
@@ -57,7 +67,7 @@ class CalculatorBrain {
         var binaryFunction: (Double, Double) -> Double
         var operand: Double
     }
-        
+    
     // MARK: - Functions
     func setOperand(operand: Double) {
         accumulator = operand
