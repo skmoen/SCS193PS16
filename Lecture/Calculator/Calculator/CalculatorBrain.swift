@@ -13,6 +13,7 @@ class CalculatorBrain {
     // MARK: - Properties
     private var accumulator = 0.0
     private var pending: PendingBinaryOperationInfo?
+    private var internalProgram = [AnyObject]()
     private var operations = [
         "π": Operation.Constant(M_PI),
         "e": Operation.Constant(M_E),
@@ -25,8 +26,34 @@ class CalculatorBrain {
         "=": Operation.Equals,
     ]
     
+    typealias PropertyList = AnyObject
+    var program: PropertyList {
+        get {
+            return internalProgram
+        }
+        set {
+            if let arrayOfOps = newValue as? [AnyObject] {
+                clear()
+                for op in arrayOfOps {
+                    if let operand = op as? Double {
+                        setOperand(operand)
+                    } else if let operation = op as? String {
+                        performOperation(operation)
+                    }
+                    
+                }
+            }
+        }
+    }
+    
     var result: Double {
         return accumulator
+    }
+    
+    func clear() {
+        accumulator = 0.0
+        pending = nil
+        internalProgram.removeAll()
     }
     
     // MARK: - Enum / Struct
@@ -45,9 +72,11 @@ class CalculatorBrain {
     // MARK: - Public Functions
     func setOperand(operand: Double) {
         accumulator = operand
+        internalProgram.append(operand)
     }
     
     func performOperation(symbol: String) {
+        internalProgram.append(symbol)
         if let operation = operations[symbol] {
             switch operation {
             case .Constant(let value):
