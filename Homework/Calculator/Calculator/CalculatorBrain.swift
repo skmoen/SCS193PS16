@@ -20,7 +20,25 @@ class CalculatorBrain {
     }
     
     var description: String {
-        return "hi"
+        var desc = ""
+        for element in history {
+            switch element {
+            case .Number(let number):
+                desc += String(number)
+            case .Symbol(let operation):
+                switch operation {
+                case .Constant(let symbol, _):
+                    desc += symbol
+                case .UnaryOperation(let symbol, _):
+                    desc = symbol + "(" + desc + ")"
+                case .BinaryOperation(let symbol, _):
+                    desc += symbol
+                case .Equals:
+                    break
+                }
+            }
+        }
+        return desc
     }
     
     var isPartialResult: Bool {
@@ -47,11 +65,11 @@ class CalculatorBrain {
         if let op = operations[operation] {
             history.append(.Symbol(op))
             switch op {
-            case .Constant(let value):
+            case .Constant(_, let value):
                 accumulator = value
-            case .UnaryOperation(let function):
+            case .UnaryOperation(_, let function):
                 accumulator = function(accumulator)
-            case .BinaryOperation(let function):
+            case .BinaryOperation(_, let function):
                 executePendingBinaryOperation()
                 pending = PendingBinaryInfo(binaryFunction: function, operand: accumulator)
             case .Equals:
@@ -62,6 +80,7 @@ class CalculatorBrain {
     
     func clear() {
         accumulator = 0
+        history.removeAll()
         pending = nil
     }
     
@@ -73,23 +92,32 @@ class CalculatorBrain {
     }
     
     // MARK: - Operations
-    private enum Operation {
-        case Constant(Double)
-        case UnaryOperation(Double -> Double)
-        case BinaryOperation((Double, Double) -> Double)
+    private enum Operation: CustomStringConvertible {
+        case Constant(String, Double)
+        case UnaryOperation(String, Double -> Double)
+        case BinaryOperation(String, (Double, Double) -> Double)
         case Equals
+        
+        var description: String {
+            switch self {
+            case .Constant(let name, _): return name
+            case .UnaryOperation(let name, _): return name
+            case .BinaryOperation(let name, _): return name
+            default: return ""
+            }
+        }
     }
     
     private let operations = [
-        "π": Operation.Constant(M_PI),
-        "e": Operation.Constant(M_E),
-        "√": Operation.UnaryOperation(sqrt),
-        "sin": Operation.UnaryOperation(sin),
-        "cos": Operation.UnaryOperation(cos),
-        "×": Operation.BinaryOperation{ $0 * $1 },
-        "÷": Operation.BinaryOperation{ $0 / $1 },
-        "+": Operation.BinaryOperation{ $0 + $1 },
-        "−": Operation.BinaryOperation{ $0 - $1 },
+        "π": Operation.Constant("π", M_PI),
+        "e": Operation.Constant("e", M_E),
+        "√": Operation.UnaryOperation("√", sqrt),
+        "sin": Operation.UnaryOperation("sin", sin),
+        "cos": Operation.UnaryOperation("cos", cos),
+        "×": Operation.BinaryOperation("×") { $0 * $1 },
+        "÷": Operation.BinaryOperation("÷") { $0 / $1 },
+        "+": Operation.BinaryOperation("+") { $0 + $1 },
+        "−": Operation.BinaryOperation("-") { $0 - $1 },
         "=": Operation.Equals,
     ]
 }

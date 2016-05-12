@@ -53,5 +53,7 @@ class ViewController: UIViewController {
     
     @IBAction func clear() {
         brain.clear()
+        displayValue = brain.result
+        history.text = ""
     }
 }
