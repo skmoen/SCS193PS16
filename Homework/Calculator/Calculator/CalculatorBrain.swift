@@ -12,7 +12,7 @@ import Foundation
 class CalculatorBrain {
     // MARK: - Properties
     private var accumulator = 0.0
-    private var history = [Element]()
+    private var internalProgram = [AnyObject]()
     private var pending: PendingBinaryInfo?
     
     var result: Double {
@@ -21,21 +21,11 @@ class CalculatorBrain {
     
     var description: String {
         var desc = ""
-        for element in history {
-            switch element {
-            case .Number(let number):
-                desc += String(number)
-            case .Symbol(let operation):
-                switch operation {
-                case .Constant(let symbol, _):
-                    desc += symbol
-                case .UnaryOperation(let symbol, _):
-                    desc = symbol + "(" + desc + ")"
-                case .BinaryOperation(let symbol, _):
-                    desc += symbol
-                case .Equals:
-                    break
-                }
+        for item in internalProgram {
+            if let operand = item as? Double {
+                desc += String(operand)
+            } else if let operation = item as? String, op = operations[operation] {
+                desc += op.description
             }
         }
         return desc
@@ -45,25 +35,38 @@ class CalculatorBrain {
         return pending != nil
     }
     
+    typealias PropertyList = AnyObject
+    var program: PropertyList {
+        get { return internalProgram }
+        set {
+            if let arrayOfOps = newValue as? [AnyObject] {
+                clear()
+                for op in arrayOfOps {
+                    if let operand = op as? Double {
+                        setOperand(operand)
+                    } else if let operation = op as? String {
+                        performOperation(operation)
+                    }
+                    
+                }
+            }
+        }
+    }
+    
     private struct PendingBinaryInfo {
         var binaryFunction: (Double, Double) -> Double
         var operand: Double
     }
-    
-    private enum Element {
-        case Number(Double)
-        case Symbol(Operation)
-    }
-    
+        
     // MARK: - Functions
     func setOperand(operand: Double) {
         accumulator = operand
-        history.append(.Number(operand))
+        internalProgram.append(operand)
     }
     
     func performOperation(operation: String) {
+        internalProgram.append(operation)
         if let op = operations[operation] {
-            history.append(.Symbol(op))
             switch op {
             case .Constant(_, let value):
                 accumulator = value
@@ -80,8 +83,8 @@ class CalculatorBrain {
     
     func clear() {
         accumulator = 0
-        history.removeAll()
         pending = nil
+        internalProgram.removeAll()
     }
     
     private func executePendingBinaryOperation() {
