@@ -12,10 +12,15 @@ import Foundation
 class CalculatorBrain {
     // MARK: - Properties
     private var accumulator = 0.0
+    private var history = [String]()
     private var pending: PendingBinaryInfo?
     
     var result: Double {
         return accumulator
+    }
+    
+    var description: String {
+        return history.joinWithSeparator(" ")
     }
     
     private struct PendingBinaryInfo {
@@ -26,6 +31,7 @@ class CalculatorBrain {
     // MARK: - Functions
     func setOperand(operand: Double) {
         accumulator = operand
+        history.append(String(operand))
     }
     
     func performOperation(operation: String) {
@@ -40,6 +46,10 @@ class CalculatorBrain {
                 pending = PendingBinaryInfo(binaryFunction: function, operand: accumulator)
             case .Equals:
                 executePendingBinaryOperation()
+            }
+            
+            if op.shouldTrackHistory {
+                history.append(operation)
             }
         }
     }
@@ -57,6 +67,13 @@ class CalculatorBrain {
         case UnaryOperation(Double -> Double)
         case BinaryOperation((Double, Double) -> Double)
         case Equals
+
+        var shouldTrackHistory: Bool {
+            switch self {
+            case .Equals: return false
+            default: return true
+            }
+        }
     }
     
     private let operations = [
