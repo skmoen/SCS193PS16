@@ -27,11 +27,16 @@ class ViewController: UIViewController {
         let digit = sender.currentTitle!
         
         if userIsTyping {
-            display.text = display.text! + digit
+            // make sure we aren't adding a second period
+            if digit != "." || display.text!.rangeOfString(".") == nil {
+                display.text = display.text! + digit
+            }
         } else {
-            display.text = digit
+            let leading = digit == "." ? "0" : ""  // add leading 0 for decimal
+            display.text = leading + digit
             userIsTyping = true
         }
+        
     }
 
     @IBAction private func touchOperation(sender: UIButton) {
