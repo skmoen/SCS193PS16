@@ -12,7 +12,7 @@ import Foundation
 class CalculatorBrain {
     // MARK: - Properties
     private var accumulator = 0.0
-    private var history = [String]()
+    private var internalProgram = [AnyObject]()
     private var pending: PendingBinaryInfo?
     
     var result: Double {
@@ -20,11 +20,55 @@ class CalculatorBrain {
     }
     
     var description: String {
-        return history.joinWithSeparator(" ")
+        var desc = ""
+        var last: String?
+        for item in internalProgram {
+            if let operand = item as? Double {
+                last = String(operand)
+            } else if let operation = item as? String, op = operations[operation] {
+                switch op {
+                case .Constant(let symbol, _):
+                    last = symbol
+                case .UnaryOperation(let symbol, _):
+                    if last != nil {
+                        desc += symbol + "(" + last! + ")"
+                        last = nil
+                    } else {
+                        desc = symbol + "(" + desc + ")"
+                    }
+                case .BinaryOperation(let symbol, _):
+                    desc += (last ?? "") + symbol
+                case .Equals:
+                    desc += last ?? ""
+                    last = nil
+                }
+            } else {
+                print("Unable to process: \(item)")
+            }
+        }
+        return desc
     }
     
     var isPartialResult: Bool {
         return pending != nil
+    }
+    
+    typealias PropertyList = AnyObject
+    var program: PropertyList {
+        get { return internalProgram }
+        set {
+            if let arrayOfOps = newValue as? [AnyObject] {
+                clear()
+                for op in arrayOfOps {
+                    if let operand = op as? Double {
+                        setOperand(operand)
+                    } else if let operation = op as? String {
+                        performOperation(operation)
+                    }
+                    
+                }
+            }
+        }
     }
     
     private struct PendingBinaryInfo {
@@ -34,28 +78,33 @@ class CalculatorBrain {
     
     // MARK: - Functions
     func setOperand(operand: Double) {
+        // if we press an operand with no pending operator, reset internal program
+        if pending == nil { clear() }
         accumulator = operand
-        history.append(String(operand))
+        internalProgram.append(operand)
     }
     
     func performOperation(operation: String) {
+        internalProgram.append(operation)
         if let op = operations[operation] {
             switch op {
-            case .Constant(let value):
+            case .Constant(_, let value):
                 accumulator = value
-            case .UnaryOperation(let function):
+            case .UnaryOperation(_, let function):
                 accumulator = function(accumulator)
-            case .BinaryOperation(let function):
+            case .BinaryOperation(_, let function):
                 executePendingBinaryOperation()
                 pending = PendingBinaryInfo(binaryFunction: function, operand: accumulator)
             case .Equals:
                 executePendingBinaryOperation()
             }
-            
-            if op.shouldTrackHistory {
-                history.append(operation)
-            }
         }
+    }
+    
+    func clear() {
+        accumulator = 0
+        pending = nil
+        internalProgram.removeAll()
     }
     
     private func executePendingBinaryOperation() {
@@ -66,30 +115,32 @@ class CalculatorBrain {
     }
     
     // MARK: - Operations
-    private enum Operation {
-        case Constant(Double)
-        case UnaryOperation(Double -> Double)
-        case BinaryOperation((Double, Double) -> Double)
+    private enum Operation: CustomStringConvertible {
+        case Constant(String, Double)
+        case UnaryOperation(String, Double -> Double)
+        case BinaryOperation(String, (Double, Double) -> Double)
         case Equals
-
-        var shouldTrackHistory: Bool {
+        
+        var description: String {
             switch self {
-            case .Equals: return false
-            default: return true
+            case .Constant(let name, _): return name
+            case .UnaryOperation(let name, _): return name
+            case .BinaryOperation(let name, _): return name
+            default: return ""
             }
         }
     }
     
     private let operations = [
-        "π": Operation.Constant(M_PI),
-        "e": Operation.Constant(M_E),
-        "√": Operation.UnaryOperation(sqrt),
-        "sin": Operation.UnaryOperation(sin),
-        "cos": Operation.UnaryOperation(cos),
-        "×": Operation.BinaryOperation{ (op1: Double, op2: Double) -> Double in return op1 * op2 },
-        "÷": Operation.BinaryOperation{ (op1, op2) in return op1 / op2 },
-        "+": Operation.BinaryOperation{ return $0 + $1 },
-        "−": Operation.BinaryOperation{ $0 - $1 },
+        "π": Operation.Constant("π", M_PI),
+        "e": Operation.Constant("e", M_E),
+        "√": Operation.UnaryOperation("√", sqrt),
+        "sin": Operation.UnaryOperation("sin", sin),
+        "cos": Operation.UnaryOperation("cos", cos),
+        "×": Operation.BinaryOperation("×") { $0 * $1 },
+        "÷": Operation.BinaryOperation("÷") { $0 / $1 },
+        "+": Operation.BinaryOperation("+") { $0 + $1 },
+        "−": Operation.BinaryOperation("-") { $0 - $1 },
         "=": Operation.Equals,
     ]
 }
