@@ -55,4 +55,15 @@ class ViewController: UIViewController {
         displayValue = brain.result
         history.text = ""
     }
+    
+    @IBAction func backspace() {
+        if userIsTyping {
+            display.text!.removeAtIndex(display.text!.startIndex)
+            
+            if display.text!.isEmpty {
+                displayValue = 0
+                userIsTyping = false
+            }
+        }
+    }
 }

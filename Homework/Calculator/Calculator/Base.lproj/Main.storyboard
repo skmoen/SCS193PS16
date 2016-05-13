@@ -60,6 +60,9 @@
                                                 <state key="normal" title="←">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="backspace" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ozz-uP-pbp"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="atH-qR-CIJ">
                                                 <rect key="frame" x="338" y="0.0" width="108.5" height="79"/>
