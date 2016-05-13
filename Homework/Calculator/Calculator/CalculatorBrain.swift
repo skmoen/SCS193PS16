@@ -78,6 +78,8 @@ class CalculatorBrain {
     
     // MARK: - Functions
     func setOperand(operand: Double) {
+        // if we press an operand with no pending operator, reset internal program
+        if pending == nil { clear() }
         accumulator = operand
         internalProgram.append(operand)
     }

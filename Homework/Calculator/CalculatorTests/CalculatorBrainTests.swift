@@ -84,6 +84,25 @@ class CalculatorBrainTests: XCTestCase {
         XCTAssert(brain.description == "7.0+9.0+6.0+3.0", brain.description)
     }
     
+    func testDescriptionH() {
+        // h. 7 + 9 = √ 6 + 3 = would show “6 + 3 =” (9 in the display)
+        brain.setOperand(7)
+        brain.performOperation("+")
+        brain.setOperand(9)
+        brain.performOperation("=")
+        brain.performOperation("√")
+        
+        // should discard existing stuff from here
+        brain.setOperand(6)
+        brain.performOperation("+")
+        brain.setOperand(3)
+        brain.performOperation("=")
+        
+        XCTAssert(brain.result == 9, String(brain.result))
+        XCTAssert(brain.isPartialResult == false)
+        XCTAssert(brain.description == "6.0+3.0", brain.description)
+    }
+    
     func testDescriptionK() {
         // k. 4 × π = would show “4 × π =“ (12.5663706143592 in the display)
         brain.setOperand(4)
