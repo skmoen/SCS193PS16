@@ -115,20 +115,11 @@ class CalculatorBrain {
     }
     
     // MARK: - Operations
-    private enum Operation: CustomStringConvertible {
+    private enum Operation {
         case Constant(String, Double)
         case UnaryOperation(String, Double -> Double)
         case BinaryOperation(String, (Double, Double) -> Double)
         case Equals
-        
-        var description: String {
-            switch self {
-            case .Constant(let name, _): return name
-            case .UnaryOperation(let name, _): return name
-            case .BinaryOperation(let name, _): return name
-            default: return ""
-            }
-        }
     }
     
     private let operations = [
