@@ -65,7 +65,6 @@ class CalculatorBrain {
                     } else if let operation = op as? String {
                         performOperation(operation)
                     }
-                    
                 }
             }
         }
@@ -85,10 +84,10 @@ class CalculatorBrain {
     }
     
     func performOperation(operation: String) {
-        internalProgram.append(operation)
         if let op = operations[operation] {
             switch op {
             case .Constant(_, let value):
+                if pending == nil { clear() }
                 accumulator = value
             case .UnaryOperation(_, let function):
                 accumulator = function(accumulator)
@@ -99,6 +98,7 @@ class CalculatorBrain {
                 executePendingBinaryOperation()
             }
         }
+        internalProgram.append(operation)
     }
     
     func clear() {

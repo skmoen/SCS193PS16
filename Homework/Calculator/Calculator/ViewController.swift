@@ -15,7 +15,10 @@ class ViewController: UIViewController {
     
     private var displayValue: Double {
         get { return Double(display.text!)! }
-        set { display.text = String(newValue) }
+        set {
+            display.text = String(newValue)
+            history.text = brain.description + (brain.isPartialResult ? "…" : "=")
+        }
     }
 
     // MARK: - IBOutlet
@@ -32,11 +35,9 @@ class ViewController: UIViewController {
                 display.text = display.text! + digit
             }
         } else {
-            let leading = digit == "." ? "0" : ""  // add leading 0 for decimal
-            display.text = leading + digit
+            display.text = (digit == "." ? "0" : "") + digit
             userIsTyping = true
         }
-        
     }
 
     @IBAction private func touchOperation(sender: UIButton) {
@@ -46,9 +47,7 @@ class ViewController: UIViewController {
         }
         
         brain.performOperation(sender.currentTitle!)
-        
         displayValue = brain.result
-        history.text = brain.description + (brain.isPartialResult ? "…" : "=")
     }
     
     @IBAction func clear() {
