@@ -14,6 +14,12 @@ class CalculatorBrain {
     private var accumulator = 0.0
     private var internalProgram = [AnyObject]()
     private var pending: PendingBinaryInfo?
+    private lazy var formatter: NSNumberFormatter = {
+        let formatter = NSNumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 6
+        return formatter
+    }()
     
     var result: Double {
         return accumulator
@@ -24,7 +30,7 @@ class CalculatorBrain {
         var last: String?
         for item in internalProgram {
             if let operand = item as? Double {
-                last = String(operand)
+                last = formatter.stringFromNumber(operand)
             } else if let operation = item as? String, op = operations[operation] {
                 switch op {
                 case .Constant(let symbol, _):
