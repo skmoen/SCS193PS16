@@ -11,3 +11,9 @@ Basic overview of class. Basic discussion of MVC. Beginning of the Calculator de
 Notes: Reading 1 due before Lecture 3; Homework 1 due before lecture 4
 
 Continue with discussion of MVC. More work on the Calculator Demo. 
+
+## Lecture 3 
+
+Notes: Assignment 2 Due before Lecture 6, all materials covered by lecture 3
+
+Elaboration on Optionals: chaining, defaults. Tuple, Class, Struct, Enum; differences and similarities. Methods: naming, static. Properties: observers, lazy initialization. Arrays: filter, map. Initialization details, designated initializers.
