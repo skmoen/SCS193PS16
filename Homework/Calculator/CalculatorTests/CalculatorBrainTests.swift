@@ -92,7 +92,7 @@ class CalculatorBrainTests: XCTestCase {
     
         XCTAssert(brain.result == M_PI, String(brain.result))
         XCTAssert(brain.isPartialResult == true)
-        XCTAssert(brain.description == "4.0×π", brain.description)
+        XCTAssert(brain.description == "4.0×", brain.description)
         
         brain.performOperation("=")
         XCTAssert(brain.result == 4*M_PI, String(brain.result))
@@ -100,8 +100,8 @@ class CalculatorBrainTests: XCTestCase {
         XCTAssert(brain.description == "4.0×π", brain.description)
     }
     
-    func testDescriptionM() {
-        // m. 4 + 5 × 3 = could also show “(4 + 5) × 3 =” if you prefer (27 in the display)
+    func testDescriptionL() {
+        // l. 4 + 5 × 3 = would show “4 + 5 × 3 =” (27 in the display)
         brain.setOperand(4)
         brain.performOperation("+")
         brain.setOperand(5)
@@ -111,7 +111,7 @@ class CalculatorBrainTests: XCTestCase {
         
         XCTAssert(brain.result == 27, String(brain.result))
         XCTAssert(brain.isPartialResult == false)
-        XCTAssert(brain.description == "(4.0+5.0)×3.0", brain.description)
+        XCTAssert(brain.description == "4.0+5.0×3.0", brain.description)
     }
     
 //    func testPerformanceExample() {

@@ -21,18 +21,26 @@ class CalculatorBrain {
     
     var description: String {
         var desc = ""
+        var last: String?
         for item in internalProgram {
             if let operand = item as? Double {
-                desc += String(operand)
+                last = String(operand)
             } else if let operation = item as? String, op = operations[operation] {
                 switch op {
                 case .Constant(let symbol, _):
-                    desc += symbol
+                    last = symbol
                 case .UnaryOperation(let symbol, _):
-                    desc = symbol + "(" + desc + ")"
+                    if last != nil {
+                        desc += symbol + "(" + last! + ")"
+                        last = nil
+                    } else {
+                        desc = symbol + "(" + desc + ")"
+                    }
                 case .BinaryOperation(let symbol, _):
-                    desc += symbol
-                default: break
+                    desc += (last ?? "") + symbol
+                case .Equals:
+                    desc += last ?? ""
+                    last = nil
                 }
             } else {
                 print("Unable to process: \(item)")
