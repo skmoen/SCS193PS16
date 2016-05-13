@@ -12,6 +12,12 @@ class ViewController: UIViewController {
     // MARK: - Properties
     private var userIsTyping = false
     private var brain = CalculatorBrain()
+    private lazy var formatter: NSNumberFormatter = {
+        let formatter = NSNumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 6
+        return formatter
+    }()
     
     private var displayValue: Double? {
         get { return Double(display.text!) }
@@ -20,7 +26,7 @@ class ViewController: UIViewController {
                 display.text = ""
                 history.text = ""
             } else {
-                display.text = String(newValue!)
+                display.text = formatter.stringFromNumber(newValue!)
                 history.text = brain.description + (brain.isPartialResult ? "…" : "=")
             }
         }
@@ -55,12 +61,12 @@ class ViewController: UIViewController {
         displayValue = brain.result
     }
     
-    @IBAction func clear() {
+    @IBAction private func clear() {
         brain.clear()
         displayValue = brain.result
     }
     
-    @IBAction func backspace() {
+    @IBAction private func backspace() {
         if userIsTyping {
             display.text!.removeAtIndex(display.text!.startIndex)
             
