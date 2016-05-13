@@ -13,11 +13,16 @@ class ViewController: UIViewController {
     private var userIsTyping = false
     private var brain = CalculatorBrain()
     
-    private var displayValue: Double {
-        get { return Double(display.text!)! }
-        set {
-            display.text = String(newValue)
-            history.text = brain.description + (brain.isPartialResult ? "…" : "=")
+    private var displayValue: Double? {
+        get { return Double(display.text!) }
+        set {            
+            if newValue == nil {
+                display.text = ""
+                history.text = ""
+            } else {
+                display.text = String(newValue!)
+                history.text = brain.description + (brain.isPartialResult ? "…" : "=")
+            }
         }
     }
 
@@ -42,7 +47,7 @@ class ViewController: UIViewController {
 
     @IBAction private func touchOperation(sender: UIButton) {
         if userIsTyping {
-            brain.setOperand(displayValue)
+            brain.setOperand(displayValue!)
             userIsTyping = false
         }
         
@@ -53,7 +58,6 @@ class ViewController: UIViewController {
     @IBAction func clear() {
         brain.clear()
         displayValue = brain.result
-        history.text = ""
     }
     
     @IBAction func backspace() {
@@ -61,7 +65,7 @@ class ViewController: UIViewController {
             display.text!.removeAtIndex(display.text!.startIndex)
             
             if display.text!.isEmpty {
-                displayValue = 0
+                displayValue = nil
                 userIsTyping = false
             }
         }
