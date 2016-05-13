@@ -1,0 +1,13 @@
+# SCS193PS16 - Stanford CS193P Spring 2016
+
+Taking Stanford CS193P Spring 2016 via iTunes University. Will attempt to stay organized by lectures, assignments, and assignment tasks.
+
+## Lecture 1
+
+Basic overview of class. Basic discussion of MVC. Beginning of the Calculator demo, including adding UI elements using Interface Builder. 
+
+## Lecture 2
+
+Notes: Reading 1 due before Lecture 3; Homework 1 due before lecture 4
+
+Continue with discussion of MVC. More work on the Calculator Demo. 
