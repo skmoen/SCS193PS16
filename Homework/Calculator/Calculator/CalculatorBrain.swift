@@ -18,6 +18,7 @@ class CalculatorBrain {
         let formatter = NSNumberFormatter()
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 6
+        formatter.minimumIntegerDigits = 1
         return formatter
     }()
     

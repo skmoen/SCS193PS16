@@ -16,6 +16,7 @@ class ViewController: UIViewController {
         let formatter = NSNumberFormatter()
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 6
+        formatter.minimumIntegerDigits = 1
         return formatter
     }()
     
@@ -59,6 +60,15 @@ class ViewController: UIViewController {
         
         brain.performOperation(sender.currentTitle!)
         displayValue = brain.result
+    }
+    
+    @IBAction func randomNumber() {
+        if userIsTyping {
+            brain.setOperand(displayValue!)
+        }
+
+        display.text = formatter.stringFromNumber(drand48())
+        userIsTyping = true
     }
     
     @IBAction private func clear() {
