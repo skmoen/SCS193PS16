@@ -71,6 +71,17 @@ class ViewController: UIViewController {
         userIsTyping = true
     }
     
+    @IBAction func memoryStore() {
+        userIsTyping = false
+        brain.varialbeValues["M"] = displayValue
+        displayValue = brain.result
+    }
+    
+    @IBAction func memoryPush() {
+        brain.setOperand("M")
+        displayValue = brain.result
+    }
+
     @IBAction private func clear() {
         brain.clear()
         displayValue = brain.result
@@ -86,4 +97,5 @@ class ViewController: UIViewController {
             }
         }
     }
+    
 }
