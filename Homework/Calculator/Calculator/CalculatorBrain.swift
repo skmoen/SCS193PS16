@@ -64,7 +64,7 @@ class CalculatorBrain {
                 print("Unable to process: \(item)")
             }
         }
-        return desc
+        return desc == "" ? last ?? "" : desc
     }
     
     var isPartialResult: Bool {

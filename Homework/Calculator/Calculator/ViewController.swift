@@ -90,7 +90,7 @@ class ViewController: UIViewController {
         // make managing the `M` variable the responsibility of controller
         brain.varialbeValues.removeValueForKey("M")
         brain.clear()
-        displayValue = nil
+        displayValue = brain.result
     }
     
     @IBAction private func backspace() {
