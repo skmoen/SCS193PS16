@@ -22,6 +22,8 @@ class CalculatorBrain {
         return formatter
     }()
     
+    var varialbeValues = [String:Double]()
+    
     var result: Double {
         return accumulator
     }
@@ -88,6 +90,12 @@ class CalculatorBrain {
         if pending == nil { clear() }
         accumulator = operand
         internalProgram.append(operand)
+    }
+    
+    func setOperand(variable: String) {
+        if pending == nil { clear() }
+        accumulator = varialbeValues[variable] ?? 0
+        internalProgram.append(variable)
     }
     
     func performOperation(operation: String) {
