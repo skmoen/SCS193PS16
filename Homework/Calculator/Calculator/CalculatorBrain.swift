@@ -22,7 +22,12 @@ class CalculatorBrain {
         return formatter
     }()
     
-    var varialbeValues = [String:Double]()
+    var varialbeValues = [String:Double]() {
+        didSet {
+            // if we change variables, re-run our program
+            program = internalProgram
+        }
+    }
     
     var result: Double {
         return accumulator
@@ -34,22 +39,26 @@ class CalculatorBrain {
         for item in internalProgram {
             if let operand = item as? Double {
                 last = formatter.stringFromNumber(operand)
-            } else if let operation = item as? String, op = operations[operation] {
-                switch op {
-                case .Constant(let symbol, _):
-                    last = symbol
-                case .UnaryOperation(let symbol, _):
-                    if last != nil {
-                        desc += symbol + "(" + last! + ")"
+            } else if let symbol = item as? String {
+                if let operation = operations[symbol] {
+                    switch operation {
+                    case .Constant(let symbol, _):
+                        last = symbol
+                    case .UnaryOperation(let symbol, _):
+                        if last != nil {
+                            desc += symbol + "(" + last! + ")"
+                            last = nil
+                        } else {
+                            desc = symbol + "(" + desc + ")"
+                        }
+                    case .BinaryOperation(let symbol, _):
+                        desc += (last ?? "") + symbol
+                    case .Equals:
+                        desc += last ?? ""
                         last = nil
-                    } else {
-                        desc = symbol + "(" + desc + ")"
                     }
-                case .BinaryOperation(let symbol, _):
-                    desc += (last ?? "") + symbol
-                case .Equals:
-                    desc += last ?? ""
-                    last = nil
+                } else {
+                    last = symbol
                 }
             } else {
                 print("Unable to process: \(item)")
@@ -71,8 +80,12 @@ class CalculatorBrain {
                 for op in arrayOfOps {
                     if let operand = op as? Double {
                         setOperand(operand)
-                    } else if let operation = op as? String {
-                        performOperation(operation)
+                    } else if let symbol = op as? String {
+                        if operations[symbol] != nil {
+                            performOperation(symbol)
+                        } else {
+                            setOperand(symbol)
+                        }
                     }
                 }
             }
@@ -98,8 +111,8 @@ class CalculatorBrain {
         internalProgram.append(variable)
     }
     
-    func performOperation(operation: String) {
-        if let op = operations[operation] {
+    func performOperation(symbol: String) {
+        if let op = operations[symbol] {
             switch op {
             case .Constant(_, let value):
                 if pending == nil { clear() }
@@ -113,7 +126,7 @@ class CalculatorBrain {
                 executePendingBinaryOperation()
             }
         }
-        internalProgram.append(operation)
+        internalProgram.append(symbol)
     }
     
     func clear() {
