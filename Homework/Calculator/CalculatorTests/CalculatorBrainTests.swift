@@ -181,6 +181,39 @@ class CalculatorBrainTests: XCTestCase {
         XCTAssert(brain.description == "√(9+M)+14", brain.description)
     }
     
+    func testUndo() {
+        brain.setOperand(10)
+        brain.performOperation("+")
+        brain.setOperand(9)
+        brain.performOperation("√")
+        brain.performOperation("=")
+        
+        let last = brain.undo()
+        XCTAssertNil(last)
+        XCTAssert(brain.result == 3)
+        XCTAssert(brain.isPartialResult)
+        XCTAssert(brain.description == "10+√(9)")
+
+        if let last = brain.undo() {
+            XCTAssert(last == 9, String(last))
+            XCTAssert(brain.result == 10, String(brain.result))
+            XCTAssert(brain.isPartialResult)
+            XCTAssert(brain.description == "10+")
+        } else {
+            XCTFail("Undo did not return last operand!")
+        }
+        
+        if let last = brain.undo() {
+            XCTAssert(last == 10, String(last))
+            XCTAssert(brain.result == 0, String(brain.result))
+            XCTAssertFalse(brain.isPartialResult)
+            XCTAssert(brain.description == "")
+        } else {
+            XCTFail("Undo did not return last operand!")
+        }
+        
+    }
+    
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.
 //        self.measureBlock {

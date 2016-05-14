@@ -135,6 +135,18 @@ class CalculatorBrain {
         internalProgram.removeAll()
     }
     
+    func undo() -> Double? {
+        var returnValue: Double? = nil
+        if internalProgram.count > 0 {
+            internalProgram.removeLast()
+            if internalProgram.last as? Double != nil {
+                returnValue = internalProgram.removeLast() as? Double
+            }
+            program = internalProgram
+        }
+        return returnValue
+    }
+    
     private func executePendingBinaryOperation() {
         if pending != nil {
             accumulator = pending!.binaryFunction(pending!.operand, accumulator)

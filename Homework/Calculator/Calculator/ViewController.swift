@@ -24,11 +24,15 @@ class ViewController: UIViewController {
         get { return Double(display.text!) }
         set {            
             if newValue == nil {
-                display.text = ""
-                history.text = ""
+                display.text = "0"
             } else {
                 display.text = formatter.stringFromNumber(newValue!)
+            }
+            
+            if brain.description != "" {
                 history.text = brain.description + (brain.isPartialResult ? "…" : "=")
+            } else {
+                history.text = ""
             }
         }
     }
@@ -62,7 +66,7 @@ class ViewController: UIViewController {
         displayValue = brain.result
     }
     
-    @IBAction func randomNumber() {
+    @IBAction private func randomNumber() {
         if userIsTyping {
             brain.setOperand(displayValue!)
         }
@@ -71,20 +75,22 @@ class ViewController: UIViewController {
         userIsTyping = true
     }
     
-    @IBAction func memoryStore() {
+    @IBAction private func memoryStore() {
         userIsTyping = false
         brain.varialbeValues["M"] = displayValue
         displayValue = brain.result
     }
     
-    @IBAction func memoryPush() {
+    @IBAction private func memoryPush() {
         brain.setOperand("M")
         displayValue = brain.result
     }
 
     @IBAction private func clear() {
+        // make managing the `M` variable the responsibility of controller
+        brain.varialbeValues.removeValueForKey("M")
         brain.clear()
-        displayValue = brain.result
+        displayValue = nil
     }
     
     @IBAction private func backspace() {
@@ -95,7 +101,14 @@ class ViewController: UIViewController {
                 displayValue = nil
                 userIsTyping = false
             }
+        } else {
+            if let operand = brain.undo() {
+                displayValue = operand
+                userIsTyping = true
+            } else {
+                displayValue = brain.result
+                userIsTyping = false
+            }
         }
     }
-    
 }
