@@ -155,6 +155,32 @@ class CalculatorBrainTests: XCTestCase {
         XCTAssert(brain.description == "M+5", brain.description)
     }
     
+    func testVariableE() {
+        brain.setOperand(9)
+        brain.performOperation("+")
+        brain.setOperand("M")
+        brain.performOperation("=")
+        brain.performOperation("√")
+        
+        XCTAssert(brain.result == 3, String(brain.result))
+        XCTAssertFalse(brain.isPartialResult)
+        XCTAssert(brain.description == "√(9+M)", brain.description)
+        
+        brain.varialbeValues["M"] = 7
+
+        XCTAssert(brain.result == 4, String(brain.result))
+        XCTAssertFalse(brain.isPartialResult)
+        XCTAssert(brain.description == "√(9+M)", brain.description)
+        
+        brain.performOperation("+")
+        brain.setOperand(14)
+        brain.performOperation("=")
+
+        XCTAssert(brain.result == 18, String(brain.result))
+        XCTAssertFalse(brain.isPartialResult)
+        XCTAssert(brain.description == "√(9+M)+14", brain.description)
+    }
+    
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.
 //        self.measureBlock {
