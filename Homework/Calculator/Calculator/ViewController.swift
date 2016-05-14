@@ -23,8 +23,8 @@ class ViewController: UIViewController {
     private var displayValue: Double? {
         get { return Double(display.text!) }
         set {
-            display.text = newValue == nil ? "0" : formatter.stringFromNumber(newValue!)
-            history.text = brain.description + (brain.description != "" ? (brain.isPartialResult ? "…" : "=") : "")            
+            display.text = formatter.stringFromNumber(newValue ?? 0)
+            history.text = brain.description + (!brain.description.isEmpty ? (brain.isPartialResult ? "…" : "=") : "")
         }
     }
 
