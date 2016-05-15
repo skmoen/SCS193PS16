@@ -53,8 +53,12 @@ class ViewController: UIViewController {
             userIsTyping = false
         }
         
-        brain.performOperation(sender.currentTitle!)
-        displayValue = brain.result
+        if let message = brain.validateOperation(sender.currentTitle!) {
+            print(message)
+        } else {
+            brain.performOperation(sender.currentTitle!)
+            displayValue = brain.result   
+        }
     }
     
     @IBAction private func randomNumber() {

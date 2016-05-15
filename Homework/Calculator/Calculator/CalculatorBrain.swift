@@ -44,14 +44,14 @@ class CalculatorBrain {
                     switch operation {
                     case .Constant(let symbol, _):
                         last = symbol
-                    case .UnaryOperation(let symbol, _):
+                    case .UnaryOperation(let symbol, _, _):
                         if last != nil {
                             desc += symbol + "(" + last! + ")"
                             last = nil
                         } else {
                             desc = symbol + "(" + desc + ")"
                         }
-                    case .BinaryOperation(let symbol, _):
+                    case .BinaryOperation(let symbol, _, _):
                         desc += (last ?? "") + symbol
                     case .Equals:
                         desc += last ?? ""
@@ -111,15 +111,28 @@ class CalculatorBrain {
         internalProgram.append(variable)
     }
     
+    func validateOperation(symbol: String) -> String? {
+        if let op = operations[symbol] {
+            switch op {
+            case .UnaryOperation(let symbol, _, let optionalValidator):
+                if let validator = optionalValidator, let message = validator(accumulator) {
+                    return symbol + ":" + message
+                }
+            default: break
+            }
+        }
+        return nil
+    }
+    
     func performOperation(symbol: String) {
         if let op = operations[symbol] {
             switch op {
             case .Constant(_, let value):
                 if pending == nil { clear() }
                 accumulator = value
-            case .UnaryOperation(_, let function):
+            case .UnaryOperation(_, let function, _):
                 accumulator = function(accumulator)
-            case .BinaryOperation(_, let function):
+            case .BinaryOperation(_, let function, _):
                 executePendingBinaryOperation()
                 pending = PendingBinaryInfo(binaryFunction: function, operand: accumulator)
             case .Equals:
@@ -157,21 +170,21 @@ class CalculatorBrain {
     // MARK: - Operations
     private enum Operation {
         case Constant(String, Double)
-        case UnaryOperation(String, Double -> Double)
-        case BinaryOperation(String, (Double, Double) -> Double)
+        case UnaryOperation(String, Double -> Double, (Double -> String?)?)
+        case BinaryOperation(String, (Double, Double) -> Double, ((Double, Double) -> String?)?)
         case Equals
     }
     
     private let operations = [
         "π": Operation.Constant("π", M_PI),
         "e": Operation.Constant("e", M_E),
-        "√": Operation.UnaryOperation("√", sqrt),
-        "sin": Operation.UnaryOperation("sin", sin),
-        "cos": Operation.UnaryOperation("cos", cos),
-        "×": Operation.BinaryOperation("×") { $0 * $1 },
-        "÷": Operation.BinaryOperation("÷") { $0 / $1 },
-        "+": Operation.BinaryOperation("+") { $0 + $1 },
-        "−": Operation.BinaryOperation("-") { $0 - $1 },
+        "√": Operation.UnaryOperation("√", sqrt, { $0 == -1 ? "Cannot Divide by Zero" : nil}),
+        "sin": Operation.UnaryOperation("sin", sin, nil),
+        "cos": Operation.UnaryOperation("cos", cos, nil),
+        "×": Operation.BinaryOperation("×", { $0 * $1 }, nil),
+        "÷": Operation.BinaryOperation("÷", { $0 / $1 }, nil),
+        "+": Operation.BinaryOperation("+", { $0 + $1 }, nil),
+        "−": Operation.BinaryOperation("-", { $0 - $1 }, nil),
         "=": Operation.Equals,
     ]
 }
