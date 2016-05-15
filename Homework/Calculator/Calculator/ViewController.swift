@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     private var displayValue: Double? {
         get { return Double(display.text!) }
         set {
-            display.text = formatter.stringFromNumber(newValue ?? 0)
+            display.text = newValue != nil ? formatter.stringFromNumber(newValue!) : ""
             history.text = brain.description + (!brain.description.isEmpty ? (brain.isPartialResult ? "…" : "=") : "")
         }
     }
@@ -38,9 +38,12 @@ class ViewController: UIViewController {
         
         if userIsTyping {
             // make sure we aren't adding a second period
-            if digit != "." || display.text!.rangeOfString(".") == nil {
-                display.text = display.text! + digit
-            }
+            if digit == "." && display.text!.rangeOfString(".") != nil { return }
+            
+            // make sure we aren't entering a bunch of zero's
+            if digit == "0" && display.text! == "0" { return }
+            
+            display.text = display.text! + digit
         } else {
             display.text = (digit == "." ? "0" : "") + digit
             userIsTyping = true
@@ -92,7 +95,7 @@ class ViewController: UIViewController {
         // make managing the `M` variable the responsibility of controller
         brain.varialbeValues.removeValueForKey("M")
         brain.clear()
-        displayValue = brain.result
+        displayValue = nil
     }
     
     @IBAction private func backspace() {
