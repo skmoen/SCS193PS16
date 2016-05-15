@@ -54,7 +54,9 @@ class ViewController: UIViewController {
         }
         
         if let message = brain.validateOperation(sender.currentTitle!) {
-            print(message)
+            let alert = UIAlertController(title: "Arithmetic Error", message: message, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            presentViewController(alert, animated: true, completion: nil)
         } else {
             brain.performOperation(sender.currentTitle!)
             displayValue = brain.result   

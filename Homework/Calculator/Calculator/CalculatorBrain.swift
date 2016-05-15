@@ -95,6 +95,7 @@ class CalculatorBrain {
     private struct PendingBinaryInfo {
         var binaryFunction: (Double, Double) -> Double
         var operand: Double
+        var validator: ((Double, Double) -> String?)?
     }
     
     // MARK: - Functions
@@ -114,10 +115,11 @@ class CalculatorBrain {
     func validateOperation(symbol: String) -> String? {
         if let op = operations[symbol] {
             switch op {
-            case .UnaryOperation(let symbol, _, let optionalValidator):
-                if let validator = optionalValidator, let message = validator(accumulator) {
-                    return symbol + ":" + message
-                }
+            case .UnaryOperation(_, _, let validator):
+                return validator?(accumulator)
+            case .BinaryOperation(_, _, _): fallthrough
+            case .Equals:
+                return pending != nil ? pending!.validator?(pending!.operand, accumulator) : nil                
             default: break
             }
         }
@@ -132,9 +134,9 @@ class CalculatorBrain {
                 accumulator = value
             case .UnaryOperation(_, let function, _):
                 accumulator = function(accumulator)
-            case .BinaryOperation(_, let function, _):
+            case .BinaryOperation(_, let function, let validator):
                 executePendingBinaryOperation()
-                pending = PendingBinaryInfo(binaryFunction: function, operand: accumulator)
+                pending = PendingBinaryInfo(binaryFunction: function, operand: accumulator, validator: validator)
             case .Equals:
                 executePendingBinaryOperation()
             }
@@ -149,11 +151,14 @@ class CalculatorBrain {
     }
     
     func undo() -> Double? {
+        print("UNDO::START::\(internalProgram)")
         var returnValue: Double? = nil
         if internalProgram.count > 0 {
             internalProgram.removeLast()
+            print("UNDO::REMOVE::\(internalProgram)")
             if internalProgram.last as? Double != nil {
                 returnValue = internalProgram.removeLast() as? Double
+                print("UNDO::RETVAL::\(internalProgram);\(returnValue)")
             }
             program = internalProgram
         }
@@ -167,6 +172,13 @@ class CalculatorBrain {
         }
     }
     
+    private func evaluatePendingBinaryOperation() -> Double? {
+        if pending != nil {
+            return pending!.binaryFunction(pending!.operand, accumulator)
+        }
+        return nil
+    }
+    
     // MARK: - Operations
     private enum Operation {
         case Constant(String, Double)
@@ -178,13 +190,13 @@ class CalculatorBrain {
     private let operations = [
         "π": Operation.Constant("π", M_PI),
         "e": Operation.Constant("e", M_E),
-        "√": Operation.UnaryOperation("√", sqrt, { $0 == -1 ? "Cannot Divide by Zero" : nil}),
+        "√": Operation.UnaryOperation("√", sqrt, {$0 < 0 ? "Cannot take Square Root of Negative!" : nil}),
         "sin": Operation.UnaryOperation("sin", sin, nil),
         "cos": Operation.UnaryOperation("cos", cos, nil),
-        "×": Operation.BinaryOperation("×", { $0 * $1 }, nil),
-        "÷": Operation.BinaryOperation("÷", { $0 / $1 }, nil),
-        "+": Operation.BinaryOperation("+", { $0 + $1 }, nil),
-        "−": Operation.BinaryOperation("-", { $0 - $1 }, nil),
+        "×": Operation.BinaryOperation("×", {$0 * $1}, nil),
+        "÷": Operation.BinaryOperation("÷", {$0 / $1}, {$1 == 0 ? "Cannot Divide by Zero!": nil}),
+        "+": Operation.BinaryOperation("+", {$0 + $1}, nil),
+        "−": Operation.BinaryOperation("-", {$0 - $1}, nil),
         "=": Operation.Equals,
     ]
 }
