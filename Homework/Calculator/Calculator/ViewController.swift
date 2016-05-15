@@ -22,14 +22,9 @@ class ViewController: UIViewController {
     
     private var displayValue: Double? {
         get { return Double(display.text!) }
-        set {            
-            if newValue == nil {
-                display.text = ""
-                history.text = ""
-            } else {
-                display.text = formatter.stringFromNumber(newValue!)
-                history.text = brain.description + (brain.isPartialResult ? "…" : "=")
-            }
+        set {
+            display.text = newValue != nil ? formatter.stringFromNumber(newValue!) : ""
+            history.text = brain.description + (!brain.description.isEmpty ? (brain.isPartialResult ? "…" : "=") : "")
         }
     }
 
@@ -43,26 +38,40 @@ class ViewController: UIViewController {
         
         if userIsTyping {
             // make sure we aren't adding a second period
-            if digit != "." || display.text!.rangeOfString(".") == nil {
-                display.text = display.text! + digit
-            }
+            if digit == "." && display.text!.rangeOfString(".") != nil { return }
+            
+            // make sure we aren't entering a bunch of zero's
+            if digit == "0" && display.text! == "0" { return }
+            
+            display.text = display.text! + digit
         } else {
             display.text = (digit == "." ? "0" : "") + digit
             userIsTyping = true
         }
     }
-
+    
     @IBAction private func touchOperation(sender: UIButton) {
+        if let message = brain.validateOperation(sender.currentTitle!, operand: userIsTyping ? displayValue! : nil) {
+            let alert = UIAlertController(title: "Arithmetic Error", message: message, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (_) in self.performOperation(sender.currentTitle!) }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            presentViewController(alert, animated: true, completion: nil)
+        } else {
+            performOperation(sender.currentTitle!)
+        }
+    }
+    
+    private func performOperation(symbol: String) {
         if userIsTyping {
             brain.setOperand(displayValue!)
             userIsTyping = false
         }
         
-        brain.performOperation(sender.currentTitle!)
+        brain.performOperation(symbol)
         displayValue = brain.result
     }
     
-    @IBAction func randomNumber() {
+    @IBAction private func randomNumber() {
         if userIsTyping {
             brain.setOperand(displayValue!)
         }
@@ -71,9 +80,22 @@ class ViewController: UIViewController {
         userIsTyping = true
     }
     
-    @IBAction private func clear() {
-        brain.clear()
+    @IBAction private func memoryStore() {
+        userIsTyping = false
+        brain.varialbeValues["M"] = displayValue
         displayValue = brain.result
+    }
+    
+    @IBAction private func memoryPush() {
+        brain.setOperand("M")
+        displayValue = brain.result
+    }
+
+    @IBAction private func clear() {
+        // make managing the `M` variable the responsibility of controller
+        brain.varialbeValues.removeValueForKey("M")
+        brain.clear()
+        displayValue = nil
     }
     
     @IBAction private func backspace() {
@@ -82,6 +104,14 @@ class ViewController: UIViewController {
             
             if display.text!.isEmpty {
                 displayValue = nil
+                userIsTyping = false
+            }
+        } else {
+            if let operand = brain.undo() {
+                displayValue = operand
+                userIsTyping = true
+            } else {
+                displayValue = brain.result
                 userIsTyping = false
             }
         }
