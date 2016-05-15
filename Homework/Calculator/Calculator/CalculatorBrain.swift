@@ -112,14 +112,15 @@ class CalculatorBrain {
         internalProgram.append(variable)
     }
     
-    func validateOperation(symbol: String) -> String? {
+    func validateOperation(symbol: String, operand: Double?) -> String? {
+        let currentOperand = operand ?? accumulator
         if let op = operations[symbol] {
             switch op {
             case .UnaryOperation(_, _, let validator):
-                return validator?(accumulator)
+                return validator?(currentOperand)
             case .BinaryOperation(_, _, _): fallthrough
             case .Equals:
-                return pending != nil ? pending!.validator?(pending!.operand, accumulator) : nil                
+                return pending != nil ? pending!.validator?(pending!.operand, currentOperand) : nil
             default: break
             }
         }
@@ -151,14 +152,11 @@ class CalculatorBrain {
     }
     
     func undo() -> Double? {
-        print("UNDO::START::\(internalProgram)")
         var returnValue: Double? = nil
         if internalProgram.count > 0 {
             internalProgram.removeLast()
-            print("UNDO::REMOVE::\(internalProgram)")
             if internalProgram.last as? Double != nil {
                 returnValue = internalProgram.removeLast() as? Double
-                print("UNDO::RETVAL::\(internalProgram);\(returnValue)")
             }
             program = internalProgram
         }

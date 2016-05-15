@@ -48,16 +48,16 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func touchOperation(sender: UIButton) {
-        if userIsTyping {
-            brain.setOperand(displayValue!)
-            userIsTyping = false
-        }
-        
-        if let message = brain.validateOperation(sender.currentTitle!) {
+        if let message = brain.validateOperation(sender.currentTitle!, operand: userIsTyping ? displayValue! : nil) {
             let alert = UIAlertController(title: "Arithmetic Error", message: message, preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
             presentViewController(alert, animated: true, completion: nil)
         } else {
+            if userIsTyping {
+                brain.setOperand(displayValue!)
+                userIsTyping = false
+            }
+
             brain.performOperation(sender.currentTitle!)
             displayValue = brain.result   
         }
