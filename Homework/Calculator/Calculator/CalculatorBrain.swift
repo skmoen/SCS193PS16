@@ -45,12 +45,8 @@ class CalculatorBrain {
                     case .Constant(let symbol, _):
                         last = symbol
                     case .UnaryOperation(let symbol, _, _):
-                        if last != nil {
-                            desc += symbol + "(" + last! + ")"
-                            last = nil
-                        } else {
-                            desc = symbol + "(" + desc + ")"
-                        }
+                        desc = (last != nil ? desc : "") + symbol + "(" + (last ?? desc) + ")"
+                        last = nil
                     case .BinaryOperation(let symbol, _, _):
                         desc += (last ?? "") + symbol
                     case .Equals:
