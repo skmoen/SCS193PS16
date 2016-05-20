@@ -17,3 +17,7 @@ Continue with discussion of MVC. More work on the Calculator Demo.
 Notes: Assignment 2 Due before Lecture 6, all materials covered by lecture 3
 
 Elaboration on Optionals: chaining, defaults. Tuple, Class, Struct, Enum; differences and similarities. Methods: naming, static. Properties: observers, lazy initialization. Arrays: filter, map. Initialization details, designated initializers.
+
+## Lecture 4
+
+Views, View Coordinate System, Custom drawing
