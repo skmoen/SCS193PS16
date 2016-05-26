@@ -100,7 +100,7 @@ class ViewController: UIViewController {
     
     @IBAction private func backspace() {
         if userIsTyping {
-            display.text!.removeAtIndex(display.text!.startIndex)
+            display.text!.removeAtIndex(display.text!.endIndex)
             
             if display.text!.isEmpty {
                 displayValue = nil
