@@ -58,7 +58,7 @@ class ViewController: UIViewController {
     
     @IBAction func backspace() {
         if userIsTyping {
-            display.text!.removeAtIndex(display.text!.endIndex)
+            display.text!.removeAtIndex(display.text!.endIndex.predecessor())
             
             if display.text!.isEmpty {
                 displayValue = 0
