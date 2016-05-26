@@ -20,4 +20,8 @@ Elaboration on Optionals: chaining, defaults. Tuple, Class, Struct, Enum; differ
 
 ## Lecture 4
 
-Views, View Coordinate System, Custom drawing
+Views, View Coordinate System, Custom drawing. FaceIt demo.
+
+## Lecture 5
+
+More work on FaceIt. UIGestureRecognizers. 
