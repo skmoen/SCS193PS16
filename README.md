@@ -24,4 +24,4 @@ Views, View Coordinate System, Custom drawing. FaceIt demo.
 
 ## Lecture 5
 
-More work on FaceIt. UIGestureRecognizers. 
+More work on FaceIt. UIGestureRecognizers. Discussion about multiple MVCs: navigation, tab bar, split view.
