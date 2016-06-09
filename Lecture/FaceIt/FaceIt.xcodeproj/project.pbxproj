@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D24AB3C91CF0D16A00F42C9F /* FacialExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24AB3C81CF0D16A00F42C9F /* FacialExpression.swift */; };
+		D27CFEFC1D09CF730046479B /* EmotionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27CFEFB1D09CF730046479B /* EmotionsViewController.swift */; };
 		D2BC56941CEED66F001A6B5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC56931CEED66F001A6B5B /* AppDelegate.swift */; };
 		D2BC56961CEED66F001A6B5B /* FaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC56951CEED66F001A6B5B /* FaceViewController.swift */; };
 		D2BC56991CEED66F001A6B5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2BC56971CEED66F001A6B5B /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		D24AB3C81CF0D16A00F42C9F /* FacialExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacialExpression.swift; sourceTree = "<group>"; };
+		D27CFEFB1D09CF730046479B /* EmotionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionsViewController.swift; sourceTree = "<group>"; };
 		D2BC56901CEED66F001A6B5B /* FaceIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BC56931CEED66F001A6B5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2BC56951CEED66F001A6B5B /* FaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				D2BC56971CEED66F001A6B5B /* Main.storyboard */,
+				D27CFEFB1D09CF730046479B /* EmotionsViewController.swift */,
 				D2BC56A61CEED775001A6B5B /* FaceView.swift */,
 				D2BC56951CEED66F001A6B5B /* FaceViewController.swift */,
 				D24AB3C81CF0D16A00F42C9F /* FacialExpression.swift */,
@@ -152,6 +155,7 @@
 			files = (
 				D2BC56961CEED66F001A6B5B /* FaceViewController.swift in Sources */,
 				D24AB3C91CF0D16A00F42C9F /* FacialExpression.swift in Sources */,
+				D27CFEFC1D09CF730046479B /* EmotionsViewController.swift in Sources */,
 				D2BC56941CEED66F001A6B5B /* AppDelegate.swift in Sources */,
 				D2BC56A71CEED775001A6B5B /* FaceView.swift in Sources */,
 			);
