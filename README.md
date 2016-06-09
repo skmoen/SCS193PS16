@@ -28,4 +28,6 @@ More work on FaceIt. UIGestureRecognizers. Discussion about multiple MVCs: navig
 
 ## Lecture 6
 
+NOTE: Assignment 3 Due before Lecture 8
+
 Segues, FaceIt with multiple VC.
