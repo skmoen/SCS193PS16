@@ -31,3 +31,7 @@ More work on FaceIt. UIGestureRecognizers. Discussion about multiple MVCs: navig
 NOTE: Assignment 3 Due before Lecture 8
 
 Segues, FaceIt with multiple VC.
+
+## Lecture 7
+
+ARC, Closures, Extensions, Protocols, Delegation. Calculator and Cassini demos.
