@@ -14,11 +14,19 @@ protocol GraphViewDataSource: class {
 
 @IBDesignable class GraphView: UIView {
     weak var dataSource: GraphViewDataSource?
+    
+    private var origin: CGPoint {
+//        return CGPoint(x: bounds.midX, y: bounds.midY)
+        return CGPointZero
+    }
+    
+    private var scale: CGFloat {
+        return 16
+    }
 
     override func drawRect(rect: CGRect) {
         let drawer = AxesDrawer(contentScaleFactor: contentScaleFactor)
-//        drawer.drawAxesInRect(bounds, origin: CGPoint(x: bounds.midX, y: bounds.midY), pointsPerUnit: 16)
-        drawer.drawAxesInRect(bounds, origin: CGPointZero, pointsPerUnit: 16)
+        drawer.drawAxesInRect(bounds, origin: origin, pointsPerUnit: scale)
         
         let step = 1 / contentScaleFactor
         var count: CGFloat = 0
@@ -26,12 +34,13 @@ protocol GraphViewDataSource: class {
         let path = UIBezierPath()
         
         while count < bounds.width {
-            let x = Double(count)  // todo: translate
-            if let y = dataSource?.calculateValue(x: x) {
+            let x = xToGraph(x: count)
+            if let value = dataSource?.calculateValue(x: x) {
+                let y = yToBounds(y: value)
                 if penDown {
-                    path.addLineToPoint(CGPoint(x: x, y: y))
+                    path.addLineToPoint(CGPoint(x: count, y: y))
                 } else {
-                    path.moveToPoint(CGPoint(x: x, y: y))
+                    path.moveToPoint(CGPoint(x: count, y: y))
                     penDown = true
                 }
             } else {
@@ -41,5 +50,14 @@ protocol GraphViewDataSource: class {
         }
         
         path.stroke()
+    }
+    
+    // MARK: - Translation
+    private func xToGraph(x x: CGFloat) -> Double {
+        return Double(x)
+    }
+    
+    private func yToBounds(y y: Double) -> CGFloat {
+        return CGFloat(y)
     }
 }
