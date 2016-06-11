@@ -26,6 +26,10 @@ class CalculatorBrain {
         "=": Operation.Equals,
     ]
     
+    func addUnaryOperation(symbol: String, operation: Double -> Double) {
+        operations[symbol] = Operation.UnaryOperation(operation)
+    }
+    
     typealias PropertyList = AnyObject
     var program: PropertyList {
         get {

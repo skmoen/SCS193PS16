@@ -8,6 +8,8 @@
 
 import UIKit
 
+var calculatorCount = 0
+
 class ViewController: UIViewController {
     // MARK: - Properties
     private var userIsTyping = false
@@ -59,5 +61,27 @@ class ViewController: UIViewController {
     @IBAction func restore() {
         brain.program = savedProgram!
         displayValue = brain.result
+    }
+    
+    // MARK: - UIViewController
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        calculatorCount += 1
+        print("Loaded up new Calculator; count = \(calculatorCount)")
+        
+//        brain.addUnaryOperation("Z") { [unowned self] in
+//          self.display.textColor = UIColor.redColor()
+
+        brain.addUnaryOperation("Z") { [weak  weakSelf = self] in
+            weakSelf?.display.textColor = UIColor.redColor()
+            return sqrt($0)
+        }
+    }
+    
+    deinit {
+        calculatorCount -= 1
+        print("Calculator left heap; count = \(calculatorCount)")
     }
 }
