@@ -10,7 +10,15 @@ import UIKit
 
 class GraphViewController: UIViewController, GraphViewDataSource {
 
-    var program: AnyObject?
+    var program: AnyObject? {
+        didSet {
+            if program != nil {
+                brain.program = program!
+            }
+        }
+    }
+    
+    private let brain = CalculatorBrain()
     
     @IBOutlet weak var graphView: GraphView! {
         didSet {
@@ -25,6 +33,7 @@ class GraphViewController: UIViewController, GraphViewDataSource {
 
     // MARK: - GraphViewDataSource
     func calculateValue(x x: Double) -> Double {
-        return 2 * x
+        brain.varialbeValues["M"] = x
+        return brain.result
     }
 }
