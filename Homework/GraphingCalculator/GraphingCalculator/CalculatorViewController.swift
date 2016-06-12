@@ -116,4 +116,15 @@ class CalculatorViewController: UIViewController {
             }
         }
     }
+
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        // we will not perform segue if the brain has a partial result
+        return !brain.isPartialResult
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let dvc = segue.destinationViewController as? GraphViewController {
+            dvc.program = brain.program
+        }
+    }
 }
