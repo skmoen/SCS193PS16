@@ -278,7 +278,7 @@
                     <navigationItem key="navigationItem" id="Jjr-wc-3a6">
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="bDo-Sp-nea">
                             <connections>
-                                <segue destination="Xdf-eL-ca1" kind="showDetail" id="eQo-ag-eOB"/>
+                                <segue destination="u1x-5C-pQZ" kind="showDetail" id="4RL-KL-c0r"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -292,37 +292,43 @@
             <point key="canvasLocation" x="1117" y="429"/>
         </scene>
         <!--Graph View Controller-->
-        <scene sceneID="4Mm-uz-clA">
+        <scene sceneID="7FF-V0-PN8">
             <objects>
-                <viewController id="Xdf-eL-ca1" customClass="GraphViewController" customModule="GraphingCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="u1x-5C-pQZ" customClass="GraphViewController" customModule="GraphingCalculator" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="XWE-iX-wl9"/>
-                        <viewControllerLayoutGuide type="bottom" id="cRh-EX-OYU"/>
+                        <viewControllerLayoutGuide type="top" id="2PB-oD-0ix"/>
+                        <viewControllerLayoutGuide type="bottom" id="FqK-9C-3Rb"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="776-4L-2hQ">
+                    <view key="view" contentMode="scaleToFill" id="8gj-vC-MjA">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="taf-PA-1d2" customClass="GraphView" customModule="GraphingCalculator" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nRy-JC-Lts" customClass="GraphView" customModule="GraphingCalculator" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="taf-PA-1d2" firstAttribute="leading" secondItem="776-4L-2hQ" secondAttribute="leading" id="50r-oQ-5nX"/>
-                            <constraint firstAttribute="trailing" secondItem="taf-PA-1d2" secondAttribute="trailing" id="HWr-TC-vAU"/>
-                            <constraint firstItem="taf-PA-1d2" firstAttribute="bottom" secondItem="cRh-EX-OYU" secondAttribute="top" id="Upn-WA-jBY"/>
-                            <constraint firstItem="taf-PA-1d2" firstAttribute="top" secondItem="776-4L-2hQ" secondAttribute="top" id="dVq-va-7KH"/>
+                            <constraint firstItem="nRy-JC-Lts" firstAttribute="top" secondItem="8gj-vC-MjA" secondAttribute="top" id="5i8-V0-Ke2"/>
+                            <constraint firstItem="nRy-JC-Lts" firstAttribute="top" secondItem="2PB-oD-0ix" secondAttribute="bottom" constant="44" id="FKK-xk-m58"/>
+                            <constraint firstAttribute="trailing" secondItem="nRy-JC-Lts" secondAttribute="trailing" id="Tgo-40-6UO"/>
+                            <constraint firstItem="nRy-JC-Lts" firstAttribute="leading" secondItem="8gj-vC-MjA" secondAttribute="leading" id="hEW-7k-Wmt"/>
+                            <constraint firstItem="nRy-JC-Lts" firstAttribute="bottom" secondItem="FqK-9C-3Rb" secondAttribute="top" id="xFJ-ma-zsk"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="FKK-xk-m58"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
-                        <outlet property="graphView" destination="taf-PA-1d2" id="A4R-MP-L8H"/>
+                        <outlet property="graphView" destination="nRy-JC-Lts" id="SJz-Mc-QmL"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6mS-Qx-oqK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1cq-qF-40r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1883" y="429"/>
+            <point key="canvasLocation" x="1837" y="429"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Aef-2r-kIP">
