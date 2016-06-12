@@ -123,7 +123,8 @@ class CalculatorViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let dvc = segue.destinationViewController as? GraphViewController {
+        if segue.identifier == "graph" {
+            let dvc = (segue.destinationViewController as! UINavigationController).topViewController as! GraphViewController
             dvc.program = brain.program
         }
     }
