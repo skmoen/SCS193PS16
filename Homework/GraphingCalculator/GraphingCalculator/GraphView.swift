@@ -16,8 +16,8 @@ protocol GraphViewDataSource: class {
     weak var dataSource: GraphViewDataSource?
     
     private var origin: CGPoint {
-//        return CGPoint(x: bounds.midX, y: bounds.midY)
-        return CGPointZero
+        return CGPoint(x: bounds.midX, y: bounds.midY)
+//        return CGPointZero
     }
     
     private var scale: CGFloat {
@@ -29,35 +29,37 @@ protocol GraphViewDataSource: class {
         drawer.drawAxesInRect(bounds, origin: origin, pointsPerUnit: scale)
         
         let step = 1 / contentScaleFactor
-        var count: CGFloat = 0
+        var xBounds: CGFloat = 0
         var penDown = false
         let path = UIBezierPath()
         
-        while count < bounds.width {
-            let x = xToGraph(x: count)
-            if let value = dataSource?.calculateValue(x: x) {
-                let y = yToBounds(y: value)
+        while xBounds < bounds.width {
+            let xGraph = xToGraph(x: xBounds)
+            if let yGraph = dataSource?.calculateValue(x: xGraph) {
+                let yBounds = yToBounds(y: yGraph)
+                
                 if penDown {
-                    path.addLineToPoint(CGPoint(x: count, y: y))
+                    path.addLineToPoint(CGPoint(x: xBounds, y: yBounds))
                 } else {
-                    path.moveToPoint(CGPoint(x: count, y: y))
+                    path.moveToPoint(CGPoint(x: xBounds, y: yBounds))
                     penDown = true
                 }
             } else {
                 penDown = false
             }
-            count += step
+            xBounds += step
         }
+        
         
         path.stroke()
     }
     
     // MARK: - Translation
     private func xToGraph(x x: CGFloat) -> Double {
-        return Double(x)
+        return Double((x - origin.x) / scale)
     }
     
     private func yToBounds(y y: Double) -> CGFloat {
-        return CGFloat(y)
+        return origin.y - (CGFloat(y) * scale)
     }
 }
