@@ -276,9 +276,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Jjr-wc-3a6">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="bDo-Sp-nea">
+                        <barButtonItem key="rightBarButtonItem" title="Graph" id="TUt-y2-VI5">
                             <connections>
-                                <segue destination="u1x-5C-pQZ" kind="showDetail" id="4RL-KL-c0r"/>
+                                <segue destination="u1x-5C-pQZ" kind="show" id="SeH-ws-5fN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -322,6 +322,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="Nh5-ma-KcA"/>
                     <connections>
                         <outlet property="graphView" destination="nRy-JC-Lts" id="SJz-Mc-QmL"/>
                     </connections>
