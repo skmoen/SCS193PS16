@@ -26,11 +26,6 @@ class GraphViewController: UIViewController, GraphViewDataSource {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-
     // MARK: - GraphViewDataSource
     func calculateValue(x x: Double) -> Double {
         brain.varialbeValues["M"] = x
