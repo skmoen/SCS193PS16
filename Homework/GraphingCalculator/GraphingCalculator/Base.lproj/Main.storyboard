@@ -304,17 +304,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nRy-JC-Lts" customClass="GraphView" customModule="GraphingCalculator" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="nRy-JC-Lts" firstAttribute="top" secondItem="8gj-vC-MjA" secondAttribute="top" id="5i8-V0-Ke2"/>
+                            <constraint firstItem="nRy-JC-Lts" firstAttribute="bottom" secondItem="FqK-9C-3Rb" secondAttribute="top" id="BkI-RE-KAT"/>
+                            <constraint firstAttribute="trailing" secondItem="nRy-JC-Lts" secondAttribute="trailing" id="CqS-aV-cec"/>
+                            <constraint firstItem="nRy-JC-Lts" firstAttribute="top" secondItem="2PB-oD-0ix" secondAttribute="bottom" id="ExU-Nt-5W7"/>
                             <constraint firstItem="nRy-JC-Lts" firstAttribute="top" secondItem="2PB-oD-0ix" secondAttribute="bottom" constant="44" id="FKK-xk-m58"/>
-                            <constraint firstAttribute="trailing" secondItem="nRy-JC-Lts" secondAttribute="trailing" id="Tgo-40-6UO"/>
-                            <constraint firstItem="nRy-JC-Lts" firstAttribute="leading" secondItem="8gj-vC-MjA" secondAttribute="leading" id="hEW-7k-Wmt"/>
-                            <constraint firstItem="nRy-JC-Lts" firstAttribute="bottom" secondItem="FqK-9C-3Rb" secondAttribute="top" id="xFJ-ma-zsk"/>
+                            <constraint firstItem="nRy-JC-Lts" firstAttribute="leading" secondItem="8gj-vC-MjA" secondAttribute="leading" id="a50-7k-bD2"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
