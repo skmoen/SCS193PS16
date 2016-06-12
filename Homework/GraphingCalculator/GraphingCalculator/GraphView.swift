@@ -17,7 +17,6 @@ protocol GraphViewDataSource: class {
     
     private var origin: CGPoint {
         return CGPoint(x: bounds.midX, y: bounds.midY)
-//        return CGPointZero
     }
     
     private var scale: CGFloat {
@@ -34,10 +33,16 @@ protocol GraphViewDataSource: class {
         let path = UIBezierPath()
         
         while xBounds < bounds.width {
+            // convert X in view bounds to graph's coordinate system
             let xGraph = xToGraph(x: xBounds)
+            
+            // calculate value of Y from graph's X value
             if let yGraph = dataSource?.calculateValue(x: xGraph) {
+                
+                // convert Y result back to view bounds coordinate
                 let yBounds = yToBounds(y: yGraph)
                 
+                // if pen is down, draw a line; otherwise move to point
                 if penDown {
                     path.addLineToPoint(CGPoint(x: xBounds, y: yBounds))
                 } else {
@@ -55,10 +60,13 @@ protocol GraphViewDataSource: class {
     }
     
     // MARK: - Translation
+    
+    // convert X coordinate from view bounds to graph coordinate system
     private func xToGraph(x x: CGFloat) -> Double {
         return Double((x - origin.x) / scale)
     }
     
+    // convert Y coordinate from graph coordinate system to view bounds
     private func yToBounds(y y: Double) -> CGFloat {
         return origin.y - (CGFloat(y) * scale)
     }
