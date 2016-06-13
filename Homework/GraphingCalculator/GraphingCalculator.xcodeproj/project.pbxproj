@@ -93,6 +93,7 @@
 				D2F313F21D0C9F0D00DDFC7A /* CalculatorBrain.swift */,
 				D2F313F61D0C9FA400DDFC7A /* AxesDrawer.swift */,
 				D2F313F81D0C9FFC00DDFC7A /* CalculatorViewController.swift */,
+				D2F313D11D0C9EB200DDFC7A /* AppDelegate.swift */,
 				D2F313F11D0C9ED600DDFC7A /* Supporting Files */,
 			);
 			path = GraphingCalculator;
@@ -113,7 +114,6 @@
 			children = (
 				D2F313DD1D0C9EB200DDFC7A /* Info.plist */,
 				D2F313D81D0C9EB200DDFC7A /* Assets.xcassets */,
-				D2F313D11D0C9EB200DDFC7A /* AppDelegate.swift */,
 				D2F313DA1D0C9EB200DDFC7A /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
@@ -420,6 +420,7 @@
 				D2F313ED1D0C9EB200DDFC7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D2F313EE1D0C9EB200DDFC7A /* Build configuration list for PBXNativeTarget "GraphingCalculatorTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +429,7 @@
 				D2F313F01D0C9EB200DDFC7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
