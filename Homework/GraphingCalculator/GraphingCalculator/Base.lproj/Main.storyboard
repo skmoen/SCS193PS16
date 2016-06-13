@@ -278,7 +278,7 @@
                     <navigationItem key="navigationItem" id="Jjr-wc-3a6">
                         <barButtonItem key="rightBarButtonItem" title="Graph" id="TUt-y2-VI5">
                             <connections>
-                                <segue destination="nl0-i3-OpN" kind="showDetail" identifier="graph" action="showViewController:sender:" id="SeH-ws-5fN"/>
+                                <segue destination="nl0-i3-OpN" kind="showDetail" identifier="graph" id="PRL-Ng-AuD"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -382,6 +382,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="SeH-ws-5fN"/>
+        <segue reference="PRL-Ng-AuD"/>
     </inferredMetricsTieBreakers>
 </document>
