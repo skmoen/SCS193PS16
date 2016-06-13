@@ -186,7 +186,7 @@ class CalculatorBrain {
         "e": Operation.Constant("e", M_E),
         "√": Operation.UnaryOperation("√", sqrt, {$0 < 0 ? "Square Root of Negative is Not a Number (NaN) - Imaginary!" : nil}),
         "sin": Operation.UnaryOperation("sin", sin, nil),
-        "cos": Operation.UnaryOperation("cos", cos, nil),
+        "tan": Operation.UnaryOperation("tan", tan, nil),
         "×": Operation.BinaryOperation("×", {$0 * $1}, nil),
         "÷": Operation.BinaryOperation("÷", {$0 / $1}, {$1 == 0 ? "Dividing by Zero results in Infinity (∞)!": nil}),
         "+": Operation.BinaryOperation("+", {$0 + $1}, nil),

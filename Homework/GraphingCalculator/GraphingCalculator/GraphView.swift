@@ -27,36 +27,38 @@ protocol GraphViewDataSource: class {
         let drawer = AxesDrawer(contentScaleFactor: contentScaleFactor)
         drawer.drawAxesInRect(bounds, origin: origin, pointsPerUnit: scale)
         
-        let step = 1 / contentScaleFactor
-        var xBounds: CGFloat = 0
-        var penDown = false
-        let path = UIBezierPath()
-        
-        while xBounds < bounds.width {
-            // convert X in view bounds to graph's coordinate system
-            let xGraph = xToGraph(x: xBounds)
+        if dataSource != nil {
+            let maxCount = Int(bounds.width * contentScaleFactor)
+            var penDown = false
+            let path = UIBezierPath()
             
-            // calculate value of Y from graph's X value
-            if let yGraph = dataSource?.calculateValue(x: xGraph) {
+            for count in 0...maxCount {
+                let xBounds = CGFloat(count) / contentScaleFactor
                 
-                // convert Y result back to view bounds coordinate
-                let yBounds = yToBounds(y: yGraph)
+                // convert X in view bounds to graph's coordinate system
+                let xGraph = xToGraph(x: xBounds)
                 
-                // if pen is down, draw a line; otherwise move to point
-                if penDown {
-                    path.addLineToPoint(CGPoint(x: xBounds, y: yBounds))
+                // calculate value of Y from graph's X value
+                let yGraph = dataSource!.calculateValue(x: xGraph)
+                if yGraph.isFinite {
+                    // convert Y result back to view bounds coordinate
+                    let yBounds = yToBounds(y: yGraph)
+                    let newPoint = CGPoint(x: xBounds, y: yBounds)
+                    
+                    // if pen is down, draw a line; otherwise move to point
+                    if penDown {
+                        path.addLineToPoint(newPoint)
+                    } else {
+                        path.moveToPoint(newPoint)
+                        penDown = true
+                    }
                 } else {
-                    path.moveToPoint(CGPoint(x: xBounds, y: yBounds))
-                    penDown = true
+                    penDown = false
                 }
-            } else {
-                penDown = false
             }
-            xBounds += step
+            
+            path.stroke()
         }
-        
-        
-        path.stroke()
     }
     
     // MARK: - Translation
