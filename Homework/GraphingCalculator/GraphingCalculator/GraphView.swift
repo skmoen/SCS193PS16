@@ -15,14 +15,22 @@ protocol GraphViewDataSource: class {
 @IBDesignable class GraphView: UIView {
     weak var dataSource: GraphViewDataSource?
     
-    private var origin: CGPoint {
-        return CGPoint(x: bounds.midX, y: bounds.midY)
-    }
-    
-    private var scale: CGFloat {
-        return 16
+    @IBInspectable var scale: CGFloat = 16 {
+        didSet {
+            setNeedsDisplay()
+        }
     }
 
+    var origin = CGPoint(x: 100, y: 200) {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+//    private var origin: CGPoint {
+//        return CGPoint(x: bounds.midX, y: bounds.midY)
+//    }
+    
     override func drawRect(rect: CGRect) {
         let drawer = AxesDrawer(contentScaleFactor: contentScaleFactor)
         drawer.drawAxesInRect(bounds, origin: origin, pointsPerUnit: scale)
