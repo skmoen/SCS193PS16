@@ -303,9 +303,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nRy-JC-Lts" customClass="GraphView" customModule="GraphingCalculator" customModuleProvider="target">
+                            <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="nRy-JC-Lts" customClass="GraphView" customModule="GraphingCalculator" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="scale">
+                                        <real key="value" value="24"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="kZs-wc-lud" appends="YES" id="fA0-5R-Ic9"/>
+                                    <outletCollection property="gestureRecognizers" destination="Cr6-Zt-J8m" appends="YES" id="0wF-OI-yCL"/>
+                                    <outletCollection property="gestureRecognizers" destination="NPI-2J-sb1" appends="YES" id="OxD-Nq-Thx"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -328,6 +339,21 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1cq-qF-40r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="kZs-wc-lud">
+                    <connections>
+                        <action selector="tap:" destination="u1x-5C-pQZ" id="Ns4-TC-HXg"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <pinchGestureRecognizer id="Cr6-Zt-J8m">
+                    <connections>
+                        <action selector="pinch:" destination="u1x-5C-pQZ" id="fjm-q3-dId"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="1" id="NPI-2J-sb1">
+                    <connections>
+                        <action selector="pan:" destination="u1x-5C-pQZ" id="gR7-bu-O8t"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1117" y="1335"/>
         </scene>
