@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Calculator View Controller-->
+        <!--Calculator-->
         <scene sceneID="9rs-3d-f44">
             <objects>
                 <viewController id="9vc-cb-27b" customClass="CalculatorViewController" customModule="GraphingCalculator" customModuleProvider="target" sceneMemberID="viewController">
@@ -275,7 +275,7 @@
                             <constraint firstItem="fZr-ON-oM4" firstAttribute="top" secondItem="nGY-pU-q9H" secondAttribute="bottom" constant="8" symbolic="YES" id="xL4-6x-4tE"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Jjr-wc-3a6">
+                    <navigationItem key="navigationItem" title="Calculator" id="Jjr-wc-3a6">
                         <barButtonItem key="rightBarButtonItem" title="Graph" id="TUt-y2-VI5">
                             <connections>
                                 <segue destination="nl0-i3-OpN" kind="showDetail" identifier="graph" id="PRL-Ng-AuD"/>
@@ -284,6 +284,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="display" destination="Vgb-Nc-bGR" id="X7M-Zk-1ZZ"/>
+                        <outlet property="graphButton" destination="TUt-y2-VI5" id="0ov-sc-g8X"/>
                         <outlet property="history" destination="7RY-yt-PAp" id="UyG-Rm-4tG"/>
                     </connections>
                 </viewController>
