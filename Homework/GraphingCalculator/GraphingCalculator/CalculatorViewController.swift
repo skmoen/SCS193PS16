@@ -25,12 +25,15 @@ class CalculatorViewController: UIViewController {
         set {
             display.text = newValue != nil ? formatter.stringFromNumber(newValue!) : ""
             history.text = brain.description + (!brain.description.isEmpty ? (brain.isPartialResult ? "…" : "=") : "")
+            
+            graphButton.enabled = !brain.isPartialResult
         }
     }
 
     // MARK: - IBOutlet
     @IBOutlet weak private var display: UILabel!
     @IBOutlet weak private var history: UILabel!
+    @IBOutlet weak var graphButton: UIBarButtonItem!
     
     // MARK: - IBAction
     @IBAction private func touchDigit(sender: UIButton) {
@@ -116,6 +119,8 @@ class CalculatorViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Navigation
 
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         // we will not perform segue if the brain has a partial result
