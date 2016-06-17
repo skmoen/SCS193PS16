@@ -15,22 +15,41 @@ protocol GraphViewDataSource: class {
 @IBDesignable class GraphView: UIView {
     weak var dataSource: GraphViewDataSource?
     
-    @IBInspectable var scale: CGFloat = 16 {
-        didSet {
+    @IBInspectable var defaultScale: CGFloat = 16
+    
+    private var defaults = NSUserDefaults.standardUserDefaults()
+    
+    private struct Const {
+        static let ScaleKey = "GraphView.Scale"
+        static let OriginKey = "GraphView.Origin"
+    }
+    
+    var scale: CGFloat {
+        get {
+            return defaults.objectForKey(Const.ScaleKey) as? CGFloat ?? defaultScale
+        }
+        set {
+            defaults.setObject(newValue, forKey: Const.ScaleKey)
             setNeedsDisplay()
         }
     }
 
-    var origin = CGPoint(x: 100, y: 200) {
-        didSet {
+    var origin: CGPoint {
+        get {
+            if let x = defaults.objectForKey(Const.OriginKey + ".x") as? CGFloat,
+                    y = defaults.objectForKey(Const.OriginKey + ".y") as? CGFloat {
+                return CGPoint(x: x, y: y)
+            } else {
+                return CGPoint(x: bounds.midX, y: bounds.midY)
+            }
+        }
+        set {
+            defaults.setObject(newValue.x, forKey: Const.OriginKey + ".x")
+            defaults.setObject(newValue.y, forKey: Const.OriginKey + ".y")
             setNeedsDisplay()
         }
     }
-    
-//    private var origin: CGPoint {
-//        return CGPoint(x: bounds.midX, y: bounds.midY)
-//    }
-    
+        
     override func drawRect(rect: CGRect) {
         let drawer = AxesDrawer(contentScaleFactor: contentScaleFactor)
         drawer.drawAxesInRect(bounds, origin: origin, pointsPerUnit: scale)
