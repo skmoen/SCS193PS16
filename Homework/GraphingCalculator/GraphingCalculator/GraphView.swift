@@ -36,16 +36,13 @@ protocol GraphViewDataSource: class {
 
     var origin: CGPoint {
         get {
-            if let x = defaults.objectForKey(Const.OriginKey + ".x") as? CGFloat,
-                    y = defaults.objectForKey(Const.OriginKey + ".y") as? CGFloat {
-                return CGPoint(x: x, y: y)
-            } else {
-                return CGPoint(x: bounds.midX, y: bounds.midY)
-            }
+            let x = CGFloat(defaults.doubleForKey(Const.OriginKey + ".x"))
+            let y = CGFloat(defaults.doubleForKey(Const.OriginKey + ".y"))
+            return CGPoint(x: bounds.midX  + x, y: bounds.midY + y)
         }
         set {
-            defaults.setObject(newValue.x, forKey: Const.OriginKey + ".x")
-            defaults.setObject(newValue.y, forKey: Const.OriginKey + ".y")
+            defaults.setDouble(Double(newValue.x - bounds.midX), forKey: Const.OriginKey + ".x")
+            defaults.setDouble(Double(newValue.y - bounds.midY), forKey: Const.OriginKey + ".y")
             setNeedsDisplay()
         }
     }
